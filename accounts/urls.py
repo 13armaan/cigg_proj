@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserListView, EventCoordinatorsListView, RegisterAPIView, VerifyOTPAPIView, LoginAPIView, omniport_login, omniport_callback, GetRoleView;
+from .views import UserListView, EventCoordinatorsListView, RegisterAPIView, VerifyOTPAPIView, LoginAPIView, omniport_login, omniport_callback, GetRoleView, UploadSelfieView;
 
 urlpatterns = [
     path("role/", GetRoleView.as_view()),
@@ -10,4 +10,5 @@ urlpatterns = [
     path("login/", LoginAPIView.as_view()),
     path("auth/omniport/login/", omniport_login),
     path("auth/omniport/callback/", omniport_callback),
+    path("upload-selfie/", UploadSelfieView.as_view()),
 ]

@@ -58,6 +58,36 @@ class LoginAPIView(APIView):
             return Response(serializer.validated_data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class UploadSelfieView(APIView):
+    permission_classes = [IsAuthenticated, IsVerified]
+
+    def post(self, request):
+        selfie = request.FILES.get('reference_selfie')
+        if not selfie:
+            return Response({"error": "No image provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+        user.reference_selfie = selfie
+        user.save()
+
+        # Generate face encoding synchronously
+        import face_recognition
+        import numpy as np
+
+        try:
+            with user.reference_selfie.open('rb') as f:
+                img = face_recognition.load_image_file(f)
+            
+            encodings = face_recognition.face_encodings(img)
+            if not encodings:
+                user.reference_selfie.delete()
+                return Response({"error": "No face found in the image. Please try another selfie."}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user.face_encoding = encodings[0].tolist()
+            user.save()
+            return Response({"message": "Selfie uploaded and face encoding generated successfully."})
+        except Exception as e:
+            return Response({"error": f"Error processing image: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     #Oauth stuff
     
