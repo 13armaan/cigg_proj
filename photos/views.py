@@ -107,16 +107,17 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
         created_photos = []
 
-        from photos.tasks import generate_thumbnail, auto_tag_photo
-        from celery import chain
+        from photos.tasks import generate_thumbnail, auto_tag_photo, match_faces
 
         for file in files:
             photo = Photo.objects.create(
                 original_img=file, uploaded_by=request.user, album=album
             )
 
-            # async processing per photo
-            chain(generate_thumbnail.s(photo.photo_id), auto_tag_photo.s()).delay()
+            # async processing per photo (run in parallel)
+            generate_thumbnail.delay(photo.photo_id)
+            auto_tag_photo.delay(photo.photo_id)
+            match_faces.delay(photo.photo_id)
 
             created_photos.append(photo.photo_id)
 
@@ -300,6 +301,23 @@ class PhotoViewSet(viewsets.ModelViewSet):
         photos = request.user.tagged_photos.all().order_by("-photo_id")
         photos = self.filters(photos)
 
+        page = self.paginate_queryset(photos)
+        if page is not None:
+            serializer = PhotoListSerializer(
+                page, many=True, context={"request": request}
+            )
+            return self.get_paginated_response(serializer.data)
+
+        serializer = PhotoListSerializer(photos, many=True)
+        return Response(serializer.data)
+
+    # endpoint to get photos where the user is recognized by AI
+    @action(
+        detail=False, methods=["get"], permission_classes=[IsAuthenticated, IsVerified]
+    )
+    def recognized(self, request):
+        photos = request.user.recognized_in_photos.all().order_by("-photo_id")
+        photos = self.filters(photos)
         page = self.paginate_queryset(photos)
         if page is not None:
             serializer = PhotoListSerializer(

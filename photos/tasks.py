@@ -99,3 +99,40 @@ def auto_tag_photo(photo_id):
         photo.tags.add(tag)
 
     return [label for _, label, _ in decoded]
+
+@shared_task(queue="ml")
+def match_faces(photo_id):
+    import face_recognition
+    import numpy as np
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    
+    try:
+        photo = Photo.objects.get(photo_id=photo_id)
+    except Photo.DoesNotExist:
+        return "Photo not found"
+
+    try:
+        with photo.original_img.open('rb') as f:
+            img = face_recognition.load_image_file(f)
+        
+        unknown_encodings = face_recognition.face_encodings(img)
+        if not unknown_encodings:
+            return "No faces found"
+
+        users_with_encodings = User.objects.exclude(face_encoding__isnull=True)
+        
+        matched_users = []
+        for user in users_with_encodings:
+            if not user.face_encoding:
+                continue
+            known_encoding = np.array(user.face_encoding)
+            
+            results = face_recognition.compare_faces(unknown_encodings, known_encoding, tolerance=0.6)
+            if any(results):
+                photo.recognized_users.add(user)
+                matched_users.append(user.email)
+                
+        return matched_users
+    except Exception as e:
+        return f"Error matching faces: {e}"
