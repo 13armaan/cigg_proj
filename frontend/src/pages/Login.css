@@ -1,0 +1,80 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  width: 320px;
+  background: #18222c;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: #168484;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background: #0e5959;
+}
+.divider {
+  margin: 16px 0;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.omniport-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 12px;
+  background-color: #0f171e;
+  color: white;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.omniport-btn:hover {
+  background-color: #18222c;
+  transform: translateY(-1px);
+}
+
+.omniport-btn:active {
+  transform: translateY(0);
+}
+
+.omniport-logo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}

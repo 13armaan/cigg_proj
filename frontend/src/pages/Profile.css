@@ -1,0 +1,158 @@
+.profile-container {
+    max-width: 600px;
+    margin: 40px auto;
+  margin-top: 110px;
+  padding: 20px;
+  background-color: #18222c;
+  border-radius: 8px;
+}
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: #18222c;
+  border-bottom: 1px solid #1e293b;
+  z-index: 1100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.navbar-logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-btn {
+  background: transparent;
+  color: #94a3b8;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.navbar-btn:hover {
+  color: #f1f5f9;
+  background-color: #1e293b;
+}
+
+.navbar-btn.active {
+  color: #168484;
+  background-color: rgba(22, 132, 132, 0.1);
+}
+
+.navbar-btn.logout-btn {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.navbar-btn.logout-btn:hover {
+  color: #f1f5f9;
+  background-color: #ef4444;
+}
+
+.profile-card {
+    background-color: #0f171e;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.profile-card h2 {
+    color: #f1f5f9;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+}
+
+.profile-info {
+    margin-bottom: 30px;
+}
+
+.profile-field {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.profile-field:last-of-type {
+    border-bottom: none;
+}
+
+.profile-field label {
+    display: block;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-field p {
+    color: #f1f5f9;
+    font-size: 16px;
+    margin: 0;
+}
+
+.roles-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.role-badge {
+    display: inline-block;
+    background-color: #134e4a;
+    color: #f1f5f9;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.profile-actions button {
+    padding: 12px 24px;
+    background-color: #168484;
+    color: #f1f5f9;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.profile-actions button:hover {
+    background-color: #0e5959;
+}
